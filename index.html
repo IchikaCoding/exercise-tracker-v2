@@ -10,26 +10,26 @@
     <!-- 入力フォーム -->
     <h3>入力フォーム</h3>
     <div>
-      <form>
+      <form id="form">
         <!-- 日付 -->
         <div>
           <label for="date">日付</label>
-          <input type="date" id="date" />
+          <input type="date" id="date" required />
         </div>
         <!-- 運動種目 -->
         <div>
           <label for="type">運動種目</label>
-          <input type="text" id="type" />
+          <input type="text" id="type" required />
         </div>
         <!-- 所要時間 -->
         <div>
-          <label for="minites">所要時間</label>
-          <input type="text" id="minites" />
+          <label for="minutes">所要時間</label>
+          <input type="text" id="minutes" required />
         </div>
         <!-- メモ -->
         <div>
           <label for="note">メモ</label>
-          <input type="text" id="note" />
+          <textarea name="note" id="note"></textarea>
         </div>
         <!-- ボタン -->
         <div>
@@ -37,15 +37,29 @@
         </div>
       </form>
     </div>
+
     <!-- フィルター部分 -->
     <!-- 日付入力 -->
     <!-- フィルタ解除ボタン -->
     <!-- デバック用ボタン -->
 
     <!-- 運動記録一覧テーブル -->
-    <!-- 日付 -->
-    <!-- 運動種目 -->
-    <!-- 所要時間 -->
-    <!-- メモ -->
+    <div>
+      <h3>運動記録一覧テーブル</h3>
+      <table id="table">
+        <thead>
+          <tr>
+            <th>日付</th>
+            <th>運動種目</th>
+            <th>所要時間</th>
+            <th>メモ</th>
+            <th></th>
+          </tr>
+        </thead>
+
+        <!-- ここにJSでデータを挿入できるようにする -->
+        <tbody id="table-data"></tbody>
+      </table>
+    </div>
   </body>
 </html>
