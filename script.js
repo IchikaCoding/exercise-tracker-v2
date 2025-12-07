@@ -59,9 +59,9 @@ function addEntriesForTable(entryArray) {
               <button class="delete-button">削除</button>
             </td>
           </tr>`;
-    console.log(inputEntryHtml);
+    // console.log(inputEntryHtml);
     entries = entries + inputEntryHtml;
-    console.log(entries);
+    // console.log(entries);
   }
   tableBodyElement.innerHTML = entries;
 }
@@ -118,4 +118,4 @@ function runTestAction() {
   console.log("ちらっ");
 }
 
-deleteButtonElement.addEventListener("click", runTestAction);
+// deleteButtonElement.addEventListener("click", runTestAction);
