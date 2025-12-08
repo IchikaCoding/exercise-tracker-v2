@@ -84,3 +84,48 @@ function greet() {
 }
 
 greet();
+
+/**
+ * クロージャーの練習コード
+ * @returns {string}
+ */
+const yakiimoCounter = () => {
+  let privateCount = 0;
+  return function increment() {
+    privateCount++;
+    return `焼き芋食べるの${privateCount}回目`;
+  };
+};
+
+const counter = yakiimoCounter();
+
+console.log(counter());
+console.log(counter());
+console.log(counter());
+console.log(counter());
+console.log(counter());
+console.log(counter());
+console.log(counter());
+console.log(counter());
+console.log(counter());
+console.log(counter());
+
+/**
+ * 高階関数
+ * 引数で渡した変数同士を比較する条件を柔軟に設定したい
+ */
+
+function yakiimoFighter(n) {
+  return function (m) {
+    return m > n;
+  };
+}
+
+const yakiimoLover = yakiimoFighter(5);
+
+console.log("6本食べた人", yakiimoLover(6));
+console.log(yakiimoLover(5));
+console.log(yakiimoLover(4));
+console.log(yakiimoLover(10) ? "本物" : "偽物");
+
+console.log(yakiimoLover(6) ? "本物" : "偽物");
