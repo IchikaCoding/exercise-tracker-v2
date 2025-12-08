@@ -98,6 +98,10 @@ const yakiimoCounter = () => {
 };
 
 const counter = yakiimoCounter();
+// function counter() {
+//   counter.privateCount = 0;
+// }
+// console.log("プロパティで参照できたかな？", counter.privateCount);
 
 console.log(counter());
 console.log(counter());
@@ -129,3 +133,19 @@ console.log(yakiimoLover(4));
 console.log(yakiimoLover(10) ? "本物" : "偽物");
 
 console.log(yakiimoLover(6) ? "本物" : "偽物");
+
+/**
+ * 関数オブジェクトのプロパティの練習コード
+ */
+
+function satsumaimoGrowingUp() {
+  satsumaimoGrowingUp.count = satsumaimoGrowingUp.count + 1;
+  return satsumaimoGrowingUp.count;
+}
+// 0スタートでさつまいもを育てる
+satsumaimoGrowingUp.count = 0;
+console.log(satsumaimoGrowingUp());
+
+// 10本スタートでさつまいもを育てる
+satsumaimoGrowingUp.count = 10;
+console.log(satsumaimoGrowingUp());
