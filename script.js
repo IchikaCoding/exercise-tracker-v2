@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   renderTableFormStorage(loadEntries());
+  loadDeleteButton();
 });
 
 /**
@@ -9,7 +10,7 @@ const ICHIKA_STORAGE_KEY = "ichikaStorageKey";
 
 const addButtonElement = document.getElementById("add-button");
 const formElement = document.getElementById("form");
-const deleteButtonElement = document.querySelector(".delete-button");
+// console.log(addButtonElement);
 
 /**
  * 入力フォームのデータを取得する
@@ -114,8 +115,12 @@ formElement.addEventListener("submit", handleFormSubmit);
  * テストボタンが動くかテスト
  */
 
-function runTestAction() {
-  console.log("ちらっ");
-}
+// function runTestAction() {
+//   console.log("ちらっ");
+// }
 
-// deleteButtonElement.addEventListener("click", runTestAction);
+// function loadDeleteButton() {
+//   const deleteButtonElement = document.querySelectorAll(".delete-button");
+//   // deleteButtonElement.addEventListener("click", runTestAction);
+//   console.log(deleteButtonElement[0]);
+// }
