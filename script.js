@@ -10,7 +10,7 @@ const ICHIKA_STORAGE_KEY = "ichikaStorageKey";
 
 const addButtonElement = document.getElementById("add-button");
 const formElement = document.getElementById("form");
-// console.log(addButtonElement);
+console.log(formElement);
 
 /**
  * 入力フォームのデータを取得する
@@ -74,8 +74,9 @@ function addEntriesForTable(entryArray) {
  * @param {{id:number, date: string, type: string, minutes: number, note: string, time:number}} inputValue
  */
 function setEntriesForStorage(entry) {
-  const currentEntryArray = sortEntries(loadEntries());
+  const currentEntryArray = loadEntries();
   currentEntryArray.push(entry);
+  sortEntries(currentEntryArray);
   localStorage.setItem(ICHIKA_STORAGE_KEY, JSON.stringify(currentEntryArray));
 }
 
@@ -108,8 +109,10 @@ function renderTableFormStorage(entryArray) {
  */
 function handleFormSubmit(event) {
   const entry = buildEntryFromForm(event);
+  console.log("entryを表示：", entry);
   setEntriesForStorage(entry);
-  renderTableFormStorage(sortEntries(loadEntries()));
+  // const sortedEntryArray = sortEntries(loadEntries());
+  renderTableFormStorage(loadEntries());
 }
 
 formElement.addEventListener("submit", handleFormSubmit);
@@ -147,7 +150,7 @@ function handleDeleteBtn(event) {
   const deleteBtnId = deleteButtonElement.dataset.id;
   console.log(deleteBtnId);
   // ローカルストレージに格納されている配列を取得
-  const entryArray = sortEntries(loadEntries());
+  const entryArray = loadEntries();
   console.log("entryArray：", entryArray);
 
   // IDと一致しないデータが入っている
@@ -155,18 +158,20 @@ function handleDeleteBtn(event) {
   const filteredArray = entryArray.filter((entry) => {
     return deleteBtnId !== entry.id;
   });
-  localStorage.setItem(ICHIKA_STORAGE_KEY, JSON.stringify(filteredArray));
-  renderTableFormStorage(filteredArray);
+  const sortedArray = sortEntries(filteredArray);
+  localStorage.setItem(ICHIKA_STORAGE_KEY, JSON.stringify(sortedArray));
+  renderTableFormStorage(sortedArray);
 }
 
 tableBodyElement.addEventListener("click", handleDeleteBtn);
 
 // データを降順に並べ替える
+// TODO 日付とtimeの両方でソートでいいかも？
+// 日付が同じならtimeでソートする
 
 function sortEntries(rawEntries) {
   console.log(rawEntries);
-
   rawEntries.sort((a, b) => new Date(b.time) - new Date(a.time));
-  localStorage.setItem(ICHIKA_STORAGE_KEY, JSON.stringify(rawEntries));
+  // localStorage.setItem(ICHIKA_STORAGE_KEY, JSON.stringify(rawEntries));
   return rawEntries;
 }
