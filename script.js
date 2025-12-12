@@ -171,7 +171,14 @@ tableBodyElement.addEventListener("click", handleDeleteBtn);
 
 function sortEntries(rawEntries) {
   console.log(rawEntries);
-  rawEntries.sort((a, b) => new Date(b.time) - new Date(a.time));
-  // localStorage.setItem(ICHIKA_STORAGE_KEY, JSON.stringify(rawEntries));
+  rawEntries.sort((a, b) => {
+    const dateDiff = new Date(b.date) - new Date(a.date);
+    if (dateDiff !== 0) {
+      return dateDiff;
+    }
+    const timeDiff = new Date(b.time) - new Date(a.time);
+    return timeDiff;
+  });
   return rawEntries;
 }
+// localStorage.setItem(ICHIKA_STORAGE_KEY, JSON.stringify(rawEntries));
