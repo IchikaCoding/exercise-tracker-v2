@@ -21,7 +21,14 @@
         <!-- 運動種目 -->
         <div>
           <label for="type">運動種目</label>
-          <input type="text" id="type" required />
+          <select name="text" id="type" required>
+            <option value="">--1つ選択してください--</option>
+            <option value="あるきあるき">あるきあるき</option>
+            <option value="ボクシング">ボクシング</option>
+            <option value="筋トレ">筋トレ</option>
+            <option value="ハイキング">ハイキング</option>
+            <option value="立体機動装置トレ">立体機動装置トレ</option>
+          </select>
         </div>
         <!-- 所要時間 -->
         <div>
@@ -48,6 +55,7 @@
     <!-- 運動記録一覧テーブル -->
     <div>
       <h3>運動記録一覧テーブル</h3>
+      <span id="total-count"></span>
       <table id="table">
         <thead>
           <tr>
