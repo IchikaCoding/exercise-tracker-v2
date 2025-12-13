@@ -4,7 +4,7 @@ type formElement = {
   id: string;
   date: string;
   type: string;
-  minutes: number;
+  minutes: string;
   note: string;
   time: number;
 };

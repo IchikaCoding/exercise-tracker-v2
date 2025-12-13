@@ -33,15 +33,21 @@ console.log(totalCountElement);
 
 function buildEntryFromForm(event) {
   event.preventDefault();
+  const validationObject = entryValidation(String(minutesElement.value));
+  if (validationObject.hasError) {
+    alert(validationObject.errorMessage);
+    return "";
+  }
   const currentTime = Date.now();
   const inputEntry = {
     id: String(currentTime),
     date: dateElement.value,
     type: typeElement.value,
-    minutes: Number(minutesElement.value),
+    minutes: String(minutesElement.value),
     note: noteElement.value,
     time: currentTime,
   };
+  // inputEntry = entryValidation(inputEntry);
   // console.log(inputEntry);
   return inputEntry;
 }
@@ -73,11 +79,32 @@ function addEntriesForTable(entryArray) {
 }
 
 /**
- * 入力フォームのバリデーション関数
+ * 入力フォームの所要時間のバリデーション関数
  * 引数は入力データentry
- * 返り値はBoolean？
+ * 入力を正規化して結果とエラーを返す
+ * @param {string} entryStringMinutes
+ * @return {{hasError: Boolean, errorMessage: string}}
  */
-function entryValidation() {}
+function entryValidation(entryStringMinutes) {
+  // データの正規化（replaceメソッドは文字列型に使える）
+  const raw = (entryStringMinutes ?? "").replace(/\s+/g, "");
+
+  // エラーの表示
+  // データ入力がなかったらデータ入力してね
+  if (raw === "") {
+    return { hasError: true, errorMessage: "データ入力してね" };
+  }
+  // 数字じゃなかったらエラー
+  const rawNumber = Number(raw);
+  if (Number.isNaN(rawNumber)) {
+    return { hasError: true, errorMessage: "数字を入力してね" };
+  }
+  // 0より小さかったらエラー
+  if (rawNumber < 0) {
+    return { hasError: true, errorMessage: "0以上で入力してね" };
+  }
+  return { hasError: false, errorMessage: "" };
+}
 
 /**
  * ローカルストレージにデータを追加する処理
@@ -140,6 +167,9 @@ function clearForm() {
  */
 function handleFormSubmit(event) {
   const entry = buildEntryFromForm(event);
+  if (!entry) {
+    return;
+  }
   console.log("entryを表示：", entry);
   setEntriesForStorage(entry);
   // const sortedEntryArray = sortEntries(loadEntries());
@@ -212,16 +242,12 @@ function sortEntries(rawEntries) {
   });
   return rawEntries;
 }
-// function sortEntries(rawEntries) {
-//   console.log(rawEntries);
-//   rawEntries.sort((a, b) => {
-//     const dateDiff = new Date(b.date) - new Date(a.date);
-//     if (dateDiff !== 0) {
-//       return dateDiff;
-//     }
-//     const timeDiff = new Date(b.time) - new Date(a.time);
-//     return timeDiff;
-//   });
-//   return rawEntries;
-// }
-// localStorage.setItem(ICHIKA_STORAGE_KEY, JSON.stringify(rawEntries));
+
+/**
+ * インデックスが22のデータを削除するためだけの関数
+ */
+function deleteItemFunc() {
+  let entryArray = loadEntries();
+  entryArray.splice(22, 1);
+  localStorage.setItem(ICHIKA_STORAGE_KEY, JSON.stringify(entryArray));
+}
