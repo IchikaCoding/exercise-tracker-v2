@@ -22,6 +22,9 @@ const minutesElement = document.getElementById("minutes");
 const noteElement = document.getElementById("note");
 const tableBodyElement = document.getElementById("table-body");
 
+const totalCountElement = document.getElementById("total-count");
+console.log(totalCountElement);
+
 /**
  * 入力データをオブジェクトの型として返すだけの処理
  * TODO バリデーションもここで追加する（minutes）
@@ -70,6 +73,13 @@ function addEntriesForTable(entryArray) {
 }
 
 /**
+ * 入力フォームのバリデーション関数
+ * 引数は入力データentry
+ * 返り値はBoolean？
+ */
+function entryValidation() {}
+
+/**
  * ローカルストレージにデータを追加する処理
  * @param {{id:number, date: string, type: string, minutes: number, note: string, time:number}} inputValue
  */
@@ -97,10 +107,31 @@ function loadEntries() {
 }
 
 /**
+ * 配列の数をカウントする関数
+ * TODO totalCountElementの存在を確認する
+ */
+function countEntries() {
+  const entries = loadEntries();
+  const totalCount = entries.length;
+  totalCountElement.textContent = `合計データ数：${totalCount}`;
+}
+
+/**
  * ローカルストレージから引数としてデータ取得→表に描画する処理
  */
 function renderTableFormStorage(entryArray) {
   addEntriesForTable(entryArray);
+  countEntries();
+}
+
+/**
+ * 入力フォームのリセット関数
+ */
+function clearForm() {
+  dateElement.value = "";
+  typeElement.value = "";
+  minutesElement.value = "";
+  noteElement.value = "";
 }
 
 /**
@@ -113,6 +144,7 @@ function handleFormSubmit(event) {
   setEntriesForStorage(entry);
   // const sortedEntryArray = sortEntries(loadEntries());
   renderTableFormStorage(loadEntries());
+  clearForm();
 }
 
 formElement.addEventListener("submit", handleFormSubmit);
@@ -165,20 +197,31 @@ function handleDeleteBtn(event) {
 
 tableBodyElement.addEventListener("click", handleDeleteBtn);
 
-// データを降順に並べ替える
-// TODO 日付とtimeの両方でソートでいいかも？
-// 日付が同じならtimeでソートする
-
+/**
+ * 降順にソートする関数
+ * @param {number []} rawEntries
+ * @returns {number []} rawEntries
+ */
 function sortEntries(rawEntries) {
   console.log(rawEntries);
   rawEntries.sort((a, b) => {
-    const dateDiff = new Date(b.date) - new Date(a.date);
-    if (dateDiff !== 0) {
-      return dateDiff;
+    if (a.date === b.date) {
+      return b.time - a.time;
     }
-    const timeDiff = new Date(b.time) - new Date(a.time);
-    return timeDiff;
+    return a.date < b.date ? 1 : -1;
   });
   return rawEntries;
 }
+// function sortEntries(rawEntries) {
+//   console.log(rawEntries);
+//   rawEntries.sort((a, b) => {
+//     const dateDiff = new Date(b.date) - new Date(a.date);
+//     if (dateDiff !== 0) {
+//       return dateDiff;
+//     }
+//     const timeDiff = new Date(b.time) - new Date(a.time);
+//     return timeDiff;
+//   });
+//   return rawEntries;
+// }
 // localStorage.setItem(ICHIKA_STORAGE_KEY, JSON.stringify(rawEntries));
