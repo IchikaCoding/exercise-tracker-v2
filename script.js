@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+  setDate();
   const sortedEntries = sortEntries(loadEntries());
   renderTableFormStorage(sortedEntries);
 });
@@ -249,4 +250,15 @@ function deleteItemFunc() {
   let entryArray = loadEntries();
   entryArray.splice(22, 1);
   localStorage.setItem(ICHIKA_STORAGE_KEY, JSON.stringify(entryArray));
+}
+
+/**
+ * 自動で日付を取得する処理
+ * @returns {string} todayString
+ */
+
+function setDate() {
+  const today = new Date();
+  const todayString = today.toISOString().slice(0, 10);
+  dateElement.value = todayString;
 }
