@@ -33,7 +33,7 @@ console.log(totalCountElement);
 
 function buildEntryFromForm(event) {
   event.preventDefault();
-  const validationObject = entryValidation(String(minutesElement.value));
+  const validationObject = entryValidation(minutesElement);
   if (validationObject.hasError) {
     alert(validationObject.errorMessage);
     return "";
@@ -43,7 +43,7 @@ function buildEntryFromForm(event) {
     id: String(currentTime),
     date: dateElement.value,
     type: typeElement.value,
-    minutes: String(minutesElement.value),
+    minutes: minutesElement.valueAsNumber,
     note: noteElement.value,
     time: currentTime,
   };
@@ -82,28 +82,27 @@ function addEntriesForTable(entryArray) {
  * 入力フォームの所要時間のバリデーション関数
  * 引数は入力データentry
  * 入力を正規化して結果とエラーを返す
- * @param {string} entryStringMinutes
+ * @param {Element} entryMinutesElement
  * @return {{hasError: Boolean, errorMessage: string}}
  */
-function entryValidation(entryStringMinutes) {
-  // データの正規化（replaceメソッドは文字列型に使える）
-  const raw = (entryStringMinutes ?? "").replace(/\s+/g, "");
-
+function entryValidation(entryMinutesElement) {
+  // // データの正規化（replaceメソッドは文字列型に使える）
+  // const entryMinutes = (entryMinutes ?? "").replace(/\s+/g, "");
   // エラーの表示
   // データ入力がなかったらデータ入力してね
-  if (raw === "") {
+  if (entryMinutesElement.value === "") {
     return { hasError: true, errorMessage: "データ入力してね" };
   }
   // 数字じゃなかったらエラー
-  const rawNumber = Number(raw);
-  if (Number.isNaN(rawNumber)) {
+  const entryMinutes = entryMinutesElement.valueAsNumber;
+  if (Number.isNaN(entryMinutes)) {
     return { hasError: true, errorMessage: "数字を入力してね" };
   }
   // 0より小さかったらエラー
-  if (rawNumber < 0) {
+  if (entryMinutes < 0) {
     return { hasError: true, errorMessage: "0以上で入力してね" };
   }
-  return { hasError: false, errorMessage: "" };
+  return { hasError: false, errorMessage: null };
 }
 
 /**
