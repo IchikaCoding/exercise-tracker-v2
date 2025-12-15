@@ -9,9 +9,31 @@ document.addEventListener("DOMContentLoaded", () => {
  */
 const ICHIKA_STORAGE_KEY = "ichikaStorageKey";
 
+const themeElement = document.getElementById("theme");
+const htmlElement = document.getElementById("html");
 const addButtonElement = document.getElementById("add-button");
 const formElement = document.getElementById("form");
 console.log(formElement);
+
+/**
+ * テーマ切り替えの処理
+ */
+function getTheme() {
+  if (themeElement.checked) {
+    return "dark";
+  } else {
+    return "light";
+  }
+}
+
+function handleTheme(event) {
+  event.preventDefault();
+  const themeString = getTheme();
+  htmlElement.setAttribute("data-bs-theme", themeString);
+  // console.log("動いた");
+}
+
+themeElement.addEventListener("change", handleTheme);
 
 /**
  * 入力フォームのデータを取得する
