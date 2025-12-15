@@ -2,12 +2,14 @@ document.addEventListener("DOMContentLoaded", () => {
   setDate();
   const sortedEntries = sortEntries(loadEntries());
   renderTableFormStorage(sortedEntries);
+  renderTheme();
 });
 
 /**
  * ローカルストレージキー
  */
 const ICHIKA_STORAGE_KEY = "ichikaStorageKey";
+const THEME_STORAGE_KEY = "themeStorageKey";
 
 const themeElement = document.getElementById("theme");
 const htmlElement = document.getElementById("html");
@@ -16,20 +18,53 @@ const formElement = document.getElementById("form");
 console.log(formElement);
 
 /**
- * テーマ切り替えの処理
+ * ローカルストレージの文字列に合わせてテーマのチェックボックスを変更する処理
  */
-function getTheme() {
-  if (themeElement.checked) {
-    return "dark";
-  } else {
-    return "light";
-  }
+// function renderTheme() {
+//   const nextTheme = themeElement.checked === true ? "dark" : "light";
+
+//   const currentTheme = loadThemeFromStorage();
+//   if (currentTheme === "dark") {
+//     themeElement.checked = true;
+//   } else {
+//     themeElement.checked = false;
+//   }
+//   // if (themeElement.checked) {
+//   //   return "dark";
+//   // } else {
+//   //   return "light";
+//   // }
+// }
+
+/**
+ * ローカルストレージに選択されたテーマを保存する処理
+ */
+function setThemeForStorage() {
+  const nextTheme = themeElement.checked === true ? "dark" : "light";
+  localStorage.setItem(THEME_STORAGE_KEY, nextTheme);
+  htmlElement.setAttribute("data-bs-theme", nextTheme);
+  console.log({ nextTheme });
 }
 
-function handleTheme(event) {
-  event.preventDefault();
-  const themeString = getTheme();
-  htmlElement.setAttribute("data-bs-theme", themeString);
+function loadThemeFromStorage() {
+  const currentTheme = localStorage.getItem(THEME_STORAGE_KEY);
+  console.log(currentTheme);
+  return currentTheme;
+}
+
+function renderTheme() {
+  const currentTheme = loadThemeFromStorage();
+  htmlElement.setAttribute("data-bs-theme", currentTheme);
+}
+
+/**
+ * チェックが変更されたら，ローカルストレージのデータを変更
+ */
+function handleTheme() {
+  setThemeForStorage();
+  // const themeString = loadThemeFromStorage();
+  // console.log(themeString);
+  // renderTheme();
   // console.log("動いた");
 }
 
