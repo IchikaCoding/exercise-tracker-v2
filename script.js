@@ -17,9 +17,7 @@ const addButtonElement = document.getElementById("add-button");
 const formElement = document.getElementById("form");
 console.log(formElement);
 const filterDateElement = document.getElementById("filter-date");
-const filterReleaseButtonElement = document.getElementById(
-  "filter-release-button"
-);
+const filterResetButtonElement = document.getElementById("filter-reset-button");
 
 /**
  * ローカルストレージの文字列に合わせてテーマのチェックボックスを変更する処理
@@ -216,7 +214,6 @@ function loadEntries() {
 
 /**
  * 配列の数をカウントする関数
- * TODO totalCountElementの存在を確認する
  */
 function countEntries() {
   const entries = loadEntries();
@@ -344,3 +341,30 @@ function setDate() {
   const todayString = today.toISOString().slice(0, 10);
   dateElement.value = todayString;
 }
+
+/**
+ * 指定した日付でフィルターした結果をコンソールに返す処理
+ * @returns {[{id:number, date: string, type: string, minutes: number, note: string, time:number}{id:number, date: string, type: string, minutes: number, note: string, time:number}]}
+ */
+function getFilterDate() {
+  // フィルターが指定した日時
+  const filterDateValue = filterDateElement.value;
+  // 全部の配列
+  const entryArray = loadEntries();
+  console.log(entryArray);
+  const filterArray = entryArray.filter(
+    (entry) => entry.date === filterDateValue
+  );
+  return filterArray;
+}
+
+/**
+ * フィルターの解除ボタンの処理
+ * @param {Event} event
+ */
+function handleFilterResetBtn(event) {
+  event.preventDefault();
+  filterDateElement.value = "";
+}
+
+filterResetButtonElement.addEventListener("click", handleFilterResetBtn);
