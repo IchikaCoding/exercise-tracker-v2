@@ -16,6 +16,10 @@ const htmlElement = document.getElementById("html");
 const addButtonElement = document.getElementById("add-button");
 const formElement = document.getElementById("form");
 console.log(formElement);
+const filterDateElement = document.getElementById("filter-date");
+const filterReleaseButtonElement = document.getElementById(
+  "filter-release-button"
+);
 
 /**
  * ローカルストレージの文字列に合わせてテーマのチェックボックスを変更する処理
@@ -40,10 +44,22 @@ console.log(formElement);
  * ローカルストレージに選択されたテーマを保存する処理
  */
 function setThemeForStorage() {
-  const nextTheme = themeElement.checked === true ? "dark" : "light";
+  // チェックボックスの状態を確認するコード
+  const nextTheme = syncCheckBoxToHtmlTheme();
   localStorage.setItem(THEME_STORAGE_KEY, nextTheme);
-  htmlElement.setAttribute("data-bs-theme", nextTheme);
   console.log({ nextTheme });
+}
+
+/**
+ * HTMLのテーマを変えるだけの処理
+ */
+function syncCheckBoxToHtmlTheme() {
+  // チェックボックスの状態を確認するコード
+  const nextTheme = themeElement.checked === true ? "dark" : "light";
+  // テーマ設定の切り替えコード
+  htmlElement.setAttribute("data-bs-theme", nextTheme);
+  console.log(nextTheme);
+  return nextTheme;
 }
 
 function loadThemeFromStorage() {
@@ -52,9 +68,17 @@ function loadThemeFromStorage() {
   return currentTheme;
 }
 
+/**
+ * ローカルストレージからデータを取得→HTMLのテーマを変更
+ */
 function renderTheme() {
   const currentTheme = loadThemeFromStorage();
-  htmlElement.setAttribute("data-bs-theme", currentTheme);
+  const validationTheme = currentTheme === "light" ? "light" : "dark";
+  if (!currentTheme) {
+    localStorage.setItem(THEME_STORAGE_KEY, validationTheme);
+  }
+  themeElement.checked = validationTheme === "dark";
+  htmlElement.setAttribute("data-bs-theme", validationTheme);
 }
 
 /**
@@ -310,6 +334,7 @@ function deleteItemFunc() {
 }
 
 /**
+ * TODO JSTに変換する
  * 自動で日付を取得する処理
  * @returns {string} todayString
  */
