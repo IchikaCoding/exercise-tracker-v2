@@ -75,6 +75,7 @@ function renderTheme() {
   if (!currentTheme) {
     localStorage.setItem(THEME_STORAGE_KEY, validationTheme);
   }
+  // これ大事！これがないとチェックボックスのチェックがリロードするたびに消えちゃう！
   themeElement.checked = validationTheme === "dark";
   htmlElement.setAttribute("data-bs-theme", validationTheme);
 }
