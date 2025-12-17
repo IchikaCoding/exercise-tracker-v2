@@ -93,22 +93,39 @@ articles.forEach((article) => {
   - フィルター前の配列に戻す
   - フィルターのインプットの value を空文字に変える
 
-```js
-function practiceFunc() {
-  const today = new Date();
-  // Intl.DateTimeFormatOptionsの中にある表示形式の選択肢
-  const options = {
-    // weekday: "long",
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    // hour: "2-digit",
-    // minute: "2-digit",
-  };
-  const jstString = today
-    .toLocaleDateString(undefined, options)
-    .replaceAll("/", "-");
-  console.log(jstString);
-  dateElement.value = jstString;
-}
-```
+---
+
+# 例外処理
+
+## try-catch 構文
+
+- エラーオブジェクトとは？
+  - 実行時エラーが発生した時に発生するもの
+  - 標準の組み込みエラー型として
+    - TypeError
+    - ReferenceError など
+- catch 節
+  - catch 節の error 識別子でキャッチしたエラーオブジェクトを参照
+- finally 節
+
+  - 例外が発生したかどうかには関係なく、必ず try 文の最後に実行
+
+- instanceof とは？
+
+`error instanceof ReferenceError`
+
+- あるオブジェクトが特定のコンストラクタ（クラス）で生成されたかを判定する演算子
+- 左辺のオブジェクトのプロトタイプ連鎖に右辺の prototype が含まれていれば true。
+- この場合は Reference エラーだったら true になるっていうコード
+
+## throw 文
+
+- 例外が発生したときにオブジェクトを投げられる
+- throw 文はあらゆるオブジェクトを例外として投げられる
+
+  - Error オブジェクトのインスタンスを投げることが推奨
+  - スタックトレースのため？
+
+- ビルトインエラーとは？
+  - 自分が設定したエラーオブジェクトじゃなくて，もとから JS とか Browser とかが定義したエラーオブジェクト
+  - 自分で明示的に throw new TypeError('...') のようにして使うこともできるよ ♪

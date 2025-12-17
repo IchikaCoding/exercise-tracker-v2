@@ -149,3 +149,67 @@ console.log(satsumaimoGrowingUp());
 // 10本スタートでさつまいもを育てる
 satsumaimoGrowingUp.count = 10;
 console.log(satsumaimoGrowingUp());
+
+/**
+ * try...catch構文の練習コード1
+ */
+try {
+  console.log("さつまいも1個目tryブロック");
+  undefinedFunc();
+} catch (error) {
+  console.log("さつまいも2個目キャッチ節");
+  console.log(error instanceof ReferenceError);
+  console.log(error.message);
+} finally {
+  console.log("さつまいもを石焼き芋にしてくれるチケット（永年無料券）");
+}
+
+try {
+  undefinedFunc();
+} finally {
+  console.log("いちごのクレープ（パリパリ）");
+}
+
+console.log("さつまいも100個");
+
+try {
+  undefinedFunc();
+} catch {
+  console.log("焼き芋5個あるのに残念だな～！！！");
+}
+
+try {
+  undefinedFunc();
+  console.log("えへへ");
+} catch (error) {
+  console.error(error);
+}
+
+try {
+  // 例外としてオブジェクトを投げた→error識別子へとわたる
+  throw new Error("ドーナツは0の形をしているから0キロカロリー！！！！！");
+} catch (error) {
+  // error識別子はtryブロックの例外を受け止めてくれている
+  console.log(error.message);
+}
+
+function getSweetPoteto(num) {
+  if (num < 2) {
+    throw new Error(`さつまいも${num}個なんていちかぱーんち👊`);
+  }
+}
+
+try {
+  getSweetPoteto(3);
+} catch (error) {
+  console.log(error instanceof Error);
+  console.log(error.message);
+}
+
+try {
+  console.log(x);
+} catch (error) {
+  console.log(error instanceof ReferenceError);
+  console.log(error.name);
+  console.log(error.message);
+}
