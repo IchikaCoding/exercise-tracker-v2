@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  setDate();
+  setDateFromBrowser();
   const sortedEntries = sortEntries(loadEntries());
   renderTableFormStorage(sortedEntries);
   renderTheme();
@@ -331,29 +331,29 @@ function deleteItemFunc() {
   localStorage.setItem(ICHIKA_STORAGE_KEY, JSON.stringify(entryArray));
 }
 
-/**
- * UTCの日付からJSTに変換する
- * 自動で日付を取得する処理
- * @returns {string} todayString
- */
+// /**
+//  * UTCの日付からJSTに変換する
+//  * 自動で日付を取得する処理
+//  * @returns {string} todayString
+//  */
 
-function setDate() {
-  const today = new Date();
-  // Intl.DateTimeFormatOptionsの中にある表示形式の選択肢
-  const options = {
-    // weekday: "long",
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    // hour: "2-digit",
-    // minute: "2-digit",
-  };
-  const jstString = today
-    .toLocaleDateString(undefined, options)
-    .replaceAll("/", "-");
-  console.log(jstString);
-  dateElement.value = jstString;
-}
+// function setDate() {
+//   const today = new Date();
+//   // Intl.DateTimeFormatOptionsの中にある表示形式の選択肢
+//   const options = {
+//     // weekday: "long",
+//     year: "numeric",
+//     month: "2-digit",
+//     day: "2-digit",
+//     // hour: "2-digit",
+//     // minute: "2-digit",
+//   };
+//   const jstString = today
+//     .toLocaleDateString(undefined, options)
+//     .replaceAll("/", "-");
+//   console.log(jstString);
+//   dateElement.value = jstString;
+// }
 
 /**
  * ブラウザの時間をそのまま自動取得するコード
