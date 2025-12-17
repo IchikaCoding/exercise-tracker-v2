@@ -332,15 +332,44 @@ function deleteItemFunc() {
 }
 
 /**
- * TODO JSTに変換する
+ * UTCの日付からJSTに変換する
  * 自動で日付を取得する処理
  * @returns {string} todayString
  */
 
 function setDate() {
   const today = new Date();
-  const todayString = today.toISOString().slice(0, 10);
-  dateElement.value = todayString;
+  // Intl.DateTimeFormatOptionsの中にある表示形式の選択肢
+  const options = {
+    // weekday: "long",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    // hour: "2-digit",
+    // minute: "2-digit",
+  };
+  const jstString = today
+    .toLocaleDateString(undefined, options)
+    .replaceAll("/", "-");
+  console.log(jstString);
+  dateElement.value = jstString;
+}
+
+/**
+ * ブラウザの時間をそのまま自動取得するコード
+ */
+function setDateFromBrowser() {
+  const today = new Date();
+  // 年を取る
+  const todayYear = today.getFullYear();
+  // 月を取る
+  const todayMonth = today.getMonth() + 1;
+  // 日を取る
+  const todayDate = today.getDate();
+  // ハイフンでくっつける
+  const hyphenatedDate = `${todayYear}-${todayMonth}-${todayDate}`;
+  dateElement.value = hyphenatedDate;
+  console.log(hyphenatedDate);
 }
 
 /**
