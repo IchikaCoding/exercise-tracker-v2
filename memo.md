@@ -92,3 +92,23 @@ articles.forEach((article) => {
   - "click"されたら，イベント発火
   - フィルター前の配列に戻す
   - フィルターのインプットの value を空文字に変える
+
+```js
+function practiceFunc() {
+  const today = new Date();
+  // Intl.DateTimeFormatOptionsの中にある表示形式の選択肢
+  const options = {
+    // weekday: "long",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    // hour: "2-digit",
+    // minute: "2-digit",
+  };
+  const jstString = today
+    .toLocaleDateString(undefined, options)
+    .replaceAll("/", "-");
+  console.log(jstString);
+  dateElement.value = jstString;
+}
+```
