@@ -193,14 +193,14 @@ try {
   console.log(error.message);
 }
 
-function getSweetPoteto(num) {
+function getSweetPotato(num) {
   if (num < 2) {
     throw new Error(`さつまいも${num}個なんていちかぱーんち👊`);
   }
 }
 
 try {
-  getSweetPoteto(3);
+  getSweetPotato(3);
 } catch (error) {
   console.log(error instanceof Error);
   console.log(error.message);
@@ -212,4 +212,66 @@ try {
   console.log(error instanceof ReferenceError);
   console.log(error.name);
   console.log(error.message);
+}
+
+function reverseName(str) {
+  if (typeof str !== "string") {
+    throw new TypeError(`${str}はStringではありません！`);
+  }
+  return Array.from(str).reverse().join("");
+}
+
+try {
+  reverseName("やきいも");
+} catch (error) {
+  console.log(error instanceof TypeError);
+  console.log(error.name);
+  console.log(error.message);
+}
+
+function sailorMoon() {
+  console.error("ぽちっとな！");
+  console.error("月に変わってお仕置きよ🌙");
+  console.error("逃げちゃダメだ　逃げちゃダメだ　逃げちゃダメだ");
+  console.log("こんちか");
+}
+/**
+ * エラーオブジェクトが失われちゃう例
+ */
+function punishYouOnTheMoon() {
+  throw new Error("月に変わってお仕置きよ🌙");
+}
+
+try {
+  punishYouOnTheMoon();
+} catch (error) {
+  throw new Error("punishYouOnTheMoonでエラーが発生！アンパーンチ！");
+}
+
+function safeParseInt(numStr) {
+  const num = Number.parseInt(numStr, 10);
+  console.log(num);
+  if (Number.isNaN(num)) {
+    throw new Error(`${numStr} is not a numeric`);
+  }
+  return num;
+}
+
+function sumNumString(a, b) {
+  try {
+    const ichigoNum = safeParseInt(a);
+    console.log({ ichigoNum });
+    const yakkimoNum = safeParseInt(b);
+    console.log({ yakkimoNum });
+    return ichigoNum + yakkimoNum;
+  } catch (error) {
+    throw new Error("いちごと焼き芋を数えるのを失敗した", { cause: error });
+  }
+}
+
+try {
+  sumNumString("ichigoText", "yakkimoBox");
+} catch (error) {
+  console.error("失敗");
+  console.error(error);
 }
