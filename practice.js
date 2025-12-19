@@ -275,3 +275,29 @@ try {
   console.error("失敗");
   console.error(error);
 }
+
+/**
+ *
+ * @param {number} strawberries
+ */
+function placeStrawberry(strawberries) {
+  try {
+    if (!strawberries) {
+      throw new Error(`いちごがありません😭😭`);
+    }
+    console.log(`${strawberries}個のいちごがあります🍓`);
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+function eatStrawberry() {
+  try {
+    placeStrawberry(0);
+  } catch (error) {
+    console.error("誠に遺憾です😡");
+  } finally {
+    console.log("バイト終了🍰");
+  }
+}
