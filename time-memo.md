@@ -88,3 +88,37 @@ flowchart TD
 # 2025-12-21
 
 - 6.1 チケットを「窓口」に出そうまでやったよ
+
+# 2025-12-21
+
+## Promise の.then について(成功したとき)
+
+- 「リジェクトを返す」か「例外を投げる」以外は成功で次に渡る
+
+## 失敗した時の窓口 ～.catch()～
+
+以下のコードを実行したときに，`Promise {<fulfilled>: undefined}`が undefined になるのはどうして？
+`Promise.resolve(100)`だけやったら`Promise {<fulfilled>: 100}`になる
+
+```js
+Promise.resolve(100)
+  .then((num) => {
+    console.log("1. 受け取った:", num);
+    return num * 2; // ← return がない！
+  })
+  .then((num) => {
+    console.log("2. 受け取った:", num); // 何が出る？
+  });
+```
+
+.catch は最後に一個書くだけで途中失敗しても拾ってくれる
+→ 途中の処理に合わせてエラーを変える事はできるの？
+
+タスクキューに並んでいる setTimeout よりマイクロタスクに並んでいる Promise の方が先に実行される（割り込む）
+
+async function は「中身を Promise で包んで返す」自動包装機。
+new Promise とかをやる必要がない！関数を定義する前に async を書くだけで `main().catch(...)` や `await main()` が使える！
+
+- 非同期処理が始まるタイミングは？
+  - 非同期の仕事は orderCoffee() 内の new Promise → setTimeout で始まっている
+  - その結果をどう扱うかを .then/.catch で指定している、という関係です。
