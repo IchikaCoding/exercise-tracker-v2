@@ -18,18 +18,18 @@
 //   clearInterval(timerID);
 // }, 5000);
 
-// const clockDisplayElement = document.getElementById("clock-display");
-// // console.log(clockDisplayElement);
+const clockDisplayElement = document.getElementById("clock-display");
+// console.log(clockDisplayElement);
 
-// function updateClock() {
-//   const date = new Date();
-//   const dateString = date.toLocaleString();
-//   clockDisplayElement.textContent = dateString;
-// }
+function updateClock() {
+  const date = new Date();
+  const dateString = date.toLocaleString();
+  clockDisplayElement.textContent = dateString;
+}
 
-// setInterval(updateClock, 1000);
+setInterval(updateClock, 1000);
 
-// updateClock();
+updateClock();
 
 //-------いちごたべるコード---------
 
