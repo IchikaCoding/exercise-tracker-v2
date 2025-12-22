@@ -219,36 +219,127 @@
 //   .catch((err) => console.log(err));
 
 // 約束チケット姉さんの仕事場（関数の中身）
-function orderCoffee() {
-  // 1. 「新しいチケット(Promise)」を作る
-  // 引数には、成功(resolve)と失敗(reject)のスイッチが渡される
-  return new Promise((resolve, reject) => {
-    console.log("約束チケット姉さん「今からコーヒーを淹れますよ...」");
+// function orderCoffee() {
+//   // 1. 「新しいチケット(Promise)」を作る
+//   // 引数には、成功(resolve)と失敗(reject)のスイッチが渡される
+//   return new Promise((resolve, reject) => {
+//     console.log("約束チケット姉さん「今からコーヒーを淹れますよ...」");
 
-    // 2. 何か時間がかかる処理（ここでは3秒待つ）
+//     // 2. 何か時間がかかる処理（ここでは3秒待つ）
+//     setTimeout(() => {
+//       const isSuccess = false; // 今回は成功したとする！
+
+//       if (isSuccess) {
+//         // 3. 成功したら resolve(成功データ) を呼ぶ！
+//         // → 運命のレバーを「成功（Resolve）」側に倒す
+//         resolve("☕ ホットコーヒー");
+//       } else {
+//         // 4. 失敗したら reject(エラー理由) を呼ぶ！
+//         // → 運命のレバーを「失敗（Reject）」側に倒す
+//         reject("💥 豆がない！");
+//       }
+//     }, 3000);
+//   });
+// }
+
+// // 実際に注文してみよう！（コピペして実行できます）
+// console.log("🛎️ すみませーん、コーヒーください");
+
+// orderCoffee()
+//   .then((coffee) => {
+//     console.log("✨ 受け取りました:", coffee);
+//   })
+//   .catch((error) => {
+//     console.log("😭 エラーです:", error);
+//   });
+
+// ----------------------------
+
+// 各種ダミー関数
+// const toGetFood = () =>
+//   new Promise((resolve, reject) =>
+//     setTimeout(() => {
+//       const num = Math.floor(Math.random() * 6 + 1);
+//       console.log("サイコロの目", num);
+//       if (num >= 5) {
+//         resolve("いちかどんの焼き芋🍠");
+//       } else if (num >= 3) {
+//         resolve("いちかどんの苺🍓");
+//       } else {
+//         reject("なし😭");
+//       }
+//     }, 1000)
+//   );
+
+// const toEat = (food) =>
+//   new Promise((resolve) => setTimeout(() => resolve(food + "を食べる"), 1000));
+// const display = (food) =>
+//   new Promise((resolve) => {
+//     console.log("画面に表示:", food);
+//     resolve();
+//   });
+
+// // エラー実験用の「爆発する関数」
+// const dangerousWork = () => Promise.reject("爆発しました💥");
+
+// async function main() {
+//   try {
+//     // ここに「成功するはず」の処理を全部書く
+//     const food = await toGetFood();
+//     const foodForEating = await toEat(food);
+//     await display(foodForEating);
+//     console.log("🎉 美味しかった！！");
+//   } catch (error) {
+//     // 途中で誰かが「失敗（Reject）」したら、すぐにここにワープしてくる！
+//     console.log("😢 ご飯はありませんでした:", error);
+//   } finally {
+//     // 成功しても失敗しても、最後に必ず実行される
+//     console.log("👋 お疲れ様でした（後片付け）");
+//   }
+// }
+
+// orderCoffee: ランダムで失敗する関数
+// function orderCoffee() {
+//   return new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//       // 50%の確率で失敗させる
+//       if (Math.random() > 0.5) resolve("☕ ホットコーヒー");
+//       else reject("豆切れエラー");
+//     }, 1000);
+//   });
+// }
+// async function main() {
+//   try {
+//     const result = await orderCoffee();
+//     console.log(result);
+//     console.log("おつちか☆");
+//   } catch (err) {
+//     console.error(err);
+//     alert("おつちか☆豆がないのでお帰りくださいまし！");
+//   }
+// }
+
+// 各種ダミー関数
+const showLoadingSpinner = () => console.log("🌀 グルグル表示");
+const hideLoadingSpinner = () => console.log("🧹 グルグル消去");
+const downloadData = () =>
+  new Promise((resolve, reject) => {
     setTimeout(() => {
-      const isSuccess = false; // 今回は成功したとする！
-
-      if (isSuccess) {
-        // 3. 成功したら resolve(成功データ) を呼ぶ！
-        // → 運命のレバーを「成功（Resolve）」側に倒す
-        resolve("☕ ホットコーヒー");
-      } else {
-        // 4. 失敗したら reject(エラー理由) を呼ぶ！
-        // → 運命のレバーを「失敗（Reject）」側に倒す
-        reject("💥 豆がない！");
-      }
-    }, 3000);
+      Math.random() > 0.5 ? resolve("成功データ") : reject("通信エラー");
+    }, 1000);
   });
+const showData = (d) => console.log("✅ データ表示:", d);
+const showError = (e) => console.log("❌ エラー表示:", e);
+
+async function main() {
+  showLoadingSpinner();
+
+  try {
+    const data = await downloadData();
+    showData(data);
+  } catch (e) {
+    showError(e);
+  } finally {
+    hideLoadingSpinner();
+  }
 }
-
-// 実際に注文してみよう！（コピペして実行できます）
-console.log("🛎️ すみませーん、コーヒーください");
-
-orderCoffee()
-  .then((coffee) => {
-    console.log("✨ 受け取りました:", coffee);
-  })
-  .catch((error) => {
-    console.log("😭 エラーです:", error);
-  });

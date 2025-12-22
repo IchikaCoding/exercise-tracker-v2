@@ -122,3 +122,84 @@ new Promise とかをやる必要がない！関数を定義する前に async �
 - 非同期処理が始まるタイミングは？
   - 非同期の仕事は orderCoffee() 内の new Promise → setTimeout で始まっている
   - その結果をどう扱うかを .then/.catch で指定している、という関係です。
+
+# 2025-12-22
+
+async 関数を呼んだら、
+中身がほしいなら await するか .then() を使おう！
+
+```js
+// 各種ダミー関数
+const download = () =>
+  new Promise((resolve) =>
+    setTimeout(() => resolve("ダウンロードデータ"), 1000)
+  );
+const process = (data) =>
+  new Promise((resolve) => setTimeout(() => resolve(data + "を加工"), 1000));
+const display = (data) =>
+  new Promise((resolve) => {
+    console.log("画面に表示:", data);
+    resolve();
+  });
+
+// エラー実験用の「爆発する関数」
+const dangerousWork = () => Promise.reject("爆発しました💥");
+```
+
+```js
+download((data) => {
+  process(data, (processed) => {
+    display(processed, () => {
+      console.log("完了！");
+    });
+  });
+});
+```
+
+```js
+download()
+  .then((data) => process(data))
+  .then((processed) => display(processed))
+  .then(() => console.log("完了！"));
+```
+
+```js
+// 魔法を使うための関数を定義
+async function main() {
+  console.log("🚀 スタート！");
+
+  // awaitをつけるだけで、完了するまでここでピタッと止まってくれる！
+  const data = await download();
+  console.log("1. ダウンロード完了！");
+
+  const processed = await process(data);
+  console.log("2. 加工完了！");
+
+  await display(processed);
+  console.log("3. 表示完了！");
+
+  console.log("🎉 すべて完了！");
+}
+
+// 実行！
+main();
+```
+
+- 3 つの掟（復習）
+
+  - await は async function の中でしか使えない！
+  - async function は必ず Promise を返す！ → だから .catch() がつけられる
+  - Promise を放置しない！ → await か .catch() で必ず受け止める
+
+- フローチャートは大事！！
+
+- try...catch が捕まえるエラーは？
+
+  - プログラムのミス
+  - Promise の失敗（Reject）
+
+- ローディング画面を消す時（isLoading = false）
+- 連打防止で無効化したボタンを、また押せるように戻す時（button.disabled = false）
+- 開いたファイルやカメラを閉じる時（後始末）
+
+「成功しても失敗しても、最後は元の状態に戻したい！」という時は finally の出番です。
