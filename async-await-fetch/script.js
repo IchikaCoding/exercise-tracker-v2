@@ -320,26 +320,94 @@
 // }
 
 // 各種ダミー関数
-const showLoadingSpinner = () => console.log("🌀 グルグル表示");
-const hideLoadingSpinner = () => console.log("🧹 グルグル消去");
-const downloadData = () =>
-  new Promise((resolve, reject) => {
+// const showLoadingSpinner = () => console.log("🌀 グルグル表示");
+// const hideLoadingSpinner = () => console.log("🧹 グルグル消去");
+// const downloadData = () =>
+//   new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//       Math.random() > 0.5 ? resolve("成功データ") : reject("通信エラー");
+//     }, 1000);
+//   });
+// const showData = (d) => console.log("✅ データ表示:", d);
+// const showError = (e) => console.log("❌ エラー表示:", e);
+
+// async function main() {
+//   showLoadingSpinner();
+
+//   try {
+//     const data = await downloadData();
+//     showData(data);
+//   } catch (e) {
+//     showError(e);
+//   } finally {
+//     hideLoadingSpinner();
+//   }
+// }
+
+// 気まぐれな注文関数（半分失敗する）
+
+function luckyOrder() {
+  return new Promise((resolve, reject) => {
+    // 0.5秒待ってから...
     setTimeout(() => {
-      Math.random() > 0.5 ? resolve("成功データ") : reject("通信エラー");
-    }, 1000);
+      const isLucky = Math.random() > 0.5; // 50%の確率
+      if (isLucky) {
+        resolve("✨ 最高級マンデリン"); // 成功！
+      } else {
+        reject("💥 カップを割ってしまいました..."); // 失敗！
+      }
+    }, 500);
   });
-const showData = (d) => console.log("✅ データ表示:", d);
-const showError = (e) => console.log("❌ エラー表示:", e);
+}
 
-async function main() {
-  showLoadingSpinner();
-
+// 注文を実行する関数
+// order関数の非同期がうまくいったかどうかで状態が成功（fulfilled）・失敗（reject）に分かれる
+async function order() {
+  console.log("注文開始🐣");
   try {
-    const data = await downloadData();
-    showData(data);
-  } catch (e) {
-    showError(e);
+    const coffee = await luckyOrder();
+    console.log(`${coffee}をゲットしました☕`);
+  } catch (error) {
+    console.log("可哀想に🥺", error);
   } finally {
-    hideLoadingSpinner();
+    console.log("お店を出る💨");
   }
 }
+
+// ------------------------
+
+// // getUser: 3秒かかる関数
+// function getUser() {
+//   return new Promise((resolve) => {
+//     setTimeout(() => resolve({ name: "イチカ", id: 1 }), 3000);
+//   });
+// }
+
+// // getFriends: 2秒かかる関数
+// function getFriends() {
+//   return new Promise((resolve) => {
+//     setTimeout(() => resolve(["Aさん", "Bさん"]), 2000);
+//   });
+// }
+// // おまけ：お盆をひっくり返す実験用
+// function getImportantData() {
+//   return Promise.resolve("大事なデータ");
+// }
+// function getErrorData() {
+//   return Promise.reject("エラーデータ");
+// }
+
+// async function loadMyPage() {
+//   console.time("かかった時間"); // 時間計測スタート！
+
+//   // 1. ユーザー情報を取る（3秒待つ）
+//   const user = await getUser();
+//   console.log("👤 ユーザー取れた！");
+
+//   // 2. 友達リストを取る（2秒待つ）
+//   const friends = await getFriends();
+//   console.log("👥 友達取れた！");
+
+//   console.log(`✨ 完成！ ${user.name}さんと、友達${friends.length}人`);
+//   console.timeEnd("かかった時間"); // 時間計測ストップ！
+// }
