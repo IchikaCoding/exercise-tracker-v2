@@ -221,3 +221,40 @@ https://github.com/komiyamma/site_ichika_study_async_await_fetch/blob/main/D09.m
 
   - ブラウザとかに仕事を任せているとき
   - Promise.all は「魔法の並列化」ってわけではないよ
+
+- Promise.all の引数は一つの配列のみ。
+
+```js
+const [userObj, sweetsArray] = await Promise.all([getUser(), getSweets()]);
+```
+
+- fetch と response.json() は必ずセットで書く！」
+
+  - 「伝票を確認する（1 回目）」→「荷物を受け取って開ける（2 回目）」という 2 段構えが基本セット
+
+- json() でエラーになったら、text() に変えて中身を確認してみる
+
+- React やるなら分割代入はしっかりやる
+
+# 2025-12-24
+
+- [[fetch]] を勉強する
+- ここからスタート 👇️
+- コラム：失敗しても自分のせいにしないで！
+
+  - https://github.com/komiyamma/site_ichika_study_async_await_fetch/blob/main/D10.md
+
+- 検討
+- Blob で画像を取る方法を模索してみる
+
+```js
+const data = await response.blob(), then const img_url = URL.createObjectURL(data) , then you can send img_url as url in <img src= {img_url}>
+```
+
+```js
+​​const response = await fetch(imageUrl); const blob = await response.blob(); const blobUrl = URL.createObjectURL(blob);
+```
+
+[[AI]] で教材を作る方法
+イチカドンパラメタを入れた Gemini 3 Pro が中核で、Codex 5.2 と Claude Opus のレビュー（イチカドンパラメタの人がこれを学習したらどうなりますか？ という評価）
+これを S+になるまで反復する。

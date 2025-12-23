@@ -404,21 +404,30 @@ function getImportantData() {
 function getErrorData() {
   return Promise.reject("在庫切れ");
 }
-
-async function main() {
-  console.log("クリスマスの当日🎅");
-  const [userObj, sweetsArray] = await Promise.all([getUser(), getSweets()]);
-  const cakeIndex = Math.floor(Math.random() * 3);
-  console.log(
-    `${userObj.name}さんが選んだのは、${sweetsArray[cakeIndex]}でした🍰`
-  );
-  console.log("ーー早く来年にならないかなーー");
+async function func() {
+  try {
+    const results = await Promise.all([getImportantData(), getErrorData()]);
+  } catch (error) {
+    console.log("全滅です…成功したデータも受け取れません😭");
+    console.error(error);
+  }
 }
 
-async function ichika() {
-  const sweets = await getSweets();
-  console.log(sweets);
-}
+// async function main() {
+//   console.log("クリスマスの当日🎅");
+//   // Promise.allの引数は一つの配列のみ。
+//   const [userObj, sweetsArray] = await Promise.all([getUser(), getSweets()]);
+//   const cakeIndex = Math.floor(Math.random() * 3);
+//   console.log(
+//     `${userObj.name}さんが選んだのは、${sweetsArray[cakeIndex]}でした🍰`
+//   );
+//   console.log("ーー早く来年にならないかなーー");
+// }
+
+// async function ichika() {
+//   const sweets = await getSweets();
+//   console.log(sweets);
+// }
 
 // async function loadMyPage() {
 //   console.time("かかった時間"); // 時間計測スタート！
