@@ -346,56 +346,79 @@
 
 // 気まぐれな注文関数（半分失敗する）
 
-function luckyOrder() {
-  return new Promise((resolve, reject) => {
-    // 0.5秒待ってから...
-    setTimeout(() => {
-      const isLucky = Math.random() > 0.5; // 50%の確率
-      if (isLucky) {
-        resolve("✨ 最高級マンデリン"); // 成功！
-      } else {
-        reject("💥 カップを割ってしまいました..."); // 失敗！
-      }
-    }, 500);
-  });
-}
+// function luckyOrder() {
+//   return new Promise((resolve, reject) => {
+//     // 0.5秒待ってから...
+//     setTimeout(() => {
+//       const isLucky = Math.random() > 0.5; // 50%の確率
+//       if (isLucky) {
+//         resolve("✨ 最高級マンデリン"); // 成功！
+//       } else {
+//         reject("💥 カップを割ってしまいました..."); // 失敗！
+//       }
+//     }, 500);
+//   });
+// }
 
-// 注文を実行する関数
-// order関数の非同期がうまくいったかどうかで状態が成功（fulfilled）・失敗（reject）に分かれる
-async function order() {
-  console.log("注文開始🐣");
-  try {
-    const coffee = await luckyOrder();
-    console.log(`${coffee}をゲットしました☕`);
-  } catch (error) {
-    console.log("可哀想に🥺", error);
-  } finally {
-    console.log("お店を出る💨");
-  }
-}
+// // 注文を実行する関数
+// // order関数の非同期がうまくいったかどうかで状態が成功（fulfilled）・失敗（reject）に分かれる
+// async function order() {
+//   console.log("注文開始🐣");
+//   try {
+//     const coffee = await luckyOrder();
+//     console.log(`${coffee}をゲットしました☕`);
+//   } catch (error) {
+//     console.log("可哀想に🥺", error);
+//   } finally {
+//     console.log("お店を出る💨");
+//   }
+// }
 
 // ------------------------
 
-// // getUser: 3秒かかる関数
-// function getUser() {
-//   return new Promise((resolve) => {
-//     setTimeout(() => resolve({ name: "イチカ", id: 1 }), 3000);
-//   });
-// }
+// getUser: 3秒かかる関数
+function getUser() {
+  return new Promise((resolve) => {
+    setTimeout(() => resolve({ name: "イチカ", id: 1 }), 1000);
+  });
+}
 
-// // getFriends: 2秒かかる関数
-// function getFriends() {
-//   return new Promise((resolve) => {
-//     setTimeout(() => resolve(["Aさん", "Bさん"]), 2000);
-//   });
-// }
-// // おまけ：お盆をひっくり返す実験用
-// function getImportantData() {
-//   return Promise.resolve("大事なデータ");
-// }
-// function getErrorData() {
-//   return Promise.reject("エラーデータ");
-// }
+// getFriends: 2秒かかる関数
+function getSweets() {
+  return new Promise((resolve) => {
+    setTimeout(
+      () =>
+        resolve([
+          "いちごのタルト",
+          "チーズケーキ（タルト生地）",
+          "ポッピングシャワー",
+        ]),
+      3000
+    );
+  });
+}
+// おまけ：お盆をひっくり返す実験用
+function getImportantData() {
+  return Promise.resolve("大事なデータ");
+}
+function getErrorData() {
+  return Promise.reject("在庫切れ");
+}
+
+async function main() {
+  console.log("クリスマスの当日🎅");
+  const [userObj, sweetsArray] = await Promise.all([getUser(), getSweets()]);
+  const cakeIndex = Math.floor(Math.random() * 3);
+  console.log(
+    `${userObj.name}さんが選んだのは、${sweetsArray[cakeIndex]}でした🍰`
+  );
+  console.log("ーー早く来年にならないかなーー");
+}
+
+async function ichika() {
+  const sweets = await getSweets();
+  console.log(sweets);
+}
 
 // async function loadMyPage() {
 //   console.time("かかった時間"); // 時間計測スタート！
@@ -410,4 +433,75 @@ async function order() {
 
 //   console.log(`✨ 完成！ ${user.name}さんと、友達${friends.length}人`);
 //   console.timeEnd("かかった時間"); // 時間計測ストップ！
+// }
+
+// Promise.allの書き方ノーマル編
+// async function loadMyPage() {
+//   console.time("爆速タイム");
+
+//   const user = getUser();
+//   const friends = getFriends();
+
+//   const [userObj, friendsArray] = await Promise.all([user, friends]);
+//   console.log(`${userObj.name}さんのお友達は${friendsArray.length}人です`);
+
+//   console.timeEnd("爆速タイム");
+// }
+
+// ブラウザ(C++)に「待つ仕事」を任せる関数群
+// function waitWithTimer(seconds) {
+//   return new Promise((resolve) => {
+//     setTimeout(() => {
+//       console.log(`⏰ ${seconds}秒のタイマー完了！`);
+//       resolve();
+//     }, seconds * 1000);
+//   });
+// }
+
+// // Promise.all で同時に開始！
+// async function testTimerParallel() {
+//   console.log("🚀 スタート！");
+//   console.time("⏱️ かかった時間");
+
+//   // 1秒・2秒・3秒を「同時に」スタート！
+//   await Promise.all([
+//     waitWithTimer(1), // 1秒
+//     waitWithTimer(2), // 2秒
+//     waitWithTimer(3), // 3秒
+//   ]);
+
+//   console.timeEnd("⏱️ かかった時間");
+//   console.log("🎉 全部完了！");
+// }
+
+// JavaScript自身が「ずっと回って待つ」関数
+// function waitWithWhile(seconds) {
+//   return new Promise((resolve) => {
+//     const start = Date.now();
+//     const waitMs = seconds * 1000;
+
+//     // while で「指定秒数」が経つまでグルグル...
+//     while (Date.now() - start < waitMs) {
+//       // 何もしないけど、CPUは動き続ける！
+//       // まな板（コールスタック）を占領したまま！
+//     }
+
+//     console.log(`🔄 ${seconds}秒のwhileループ完了！`);
+//     resolve();
+//   });
+// }
+
+// // Promise.all で同時に開始...できる？
+// async function testWhileParallel() {
+//   console.log("🚀 スタート！ ※画面がフリーズするかも...");
+//   console.time("⏱️ かかった時間");
+
+//   await Promise.all([
+//     waitWithWhile(1), // 1秒
+//     waitWithWhile(2), // 2秒
+//     waitWithWhile(3), // 3秒
+//   ]);
+
+//   console.timeEnd("⏱️ かかった時間");
+//   console.log("🎉 全部完了！");
 // }

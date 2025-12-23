@@ -216,3 +216,8 @@ main();
 ここからスタート 👇️
 Step 1：まずは普通の書き方で理解しよう
 https://github.com/komiyamma/site_ichika_study_async_await_fetch/blob/main/D09.md
+
+- 並列化の恩恵を受けられるときは？
+
+  - ブラウザとかに仕事を任せているとき
+  - Promise.all は「魔法の並列化」ってわけではないよ
