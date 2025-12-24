@@ -258,3 +258,41 @@ const data = await response.blob(), then const img_url = URL.createObjectURL(dat
 [[AI]] で教材を作る方法
 イチカドンパラメタを入れた Gemini 3 Pro が中核で、Codex 5.2 と Claude Opus のレビュー（イチカドンパラメタの人がこれを学習したらどうなりますか？ という評価）
 これを S+になるまで反復する。
+
+---
+
+# 2025-12-24
+
+- fetch は時間がかかるので、必ず「ローディング表示」をする。
+
+- データを get するとき
+  - JSON 文字列をもらってきて、オブジェクトに直す処理
+- ## データを送るとき
+
+- json()
+  - 入力として JSON を取って解釈
+  - JavaScript のオブジェクトを生成します。
+
+```js
+// myOderは、JSON文字列にして送信する
+const myOder = {
+  food: "sweetPotato🍠",
+  cake: "いちごのタルト🍓",
+  drink: "cafe latte",
+};
+
+async function postData() {
+  console.log("・・・データ送る準備中・・・");
+  //   responseはJSON文字列
+  const response = await fetch("https://example.com/api/order", {
+    method: "post",
+    header: { "Content-type": "application/json" },
+    body: JSON.stringify(myOder),
+  });
+  console.log(response);
+  //   json()によって、responseはJavasrcitptのオブジェクトに変換される
+  const result = await response.json();
+  console.log(result);
+  console.log("✅ 注文完了！ ID:", result.id);
+}
+```
