@@ -175,25 +175,59 @@
 // userIdが引数
 // userIdがあるなら、そのAPIのURLにアクセス
 
-async function getUserId(userId) {
-  if (!userId) {
-    throw new Error("useIdが偽です");
+// async function getUserId(userId) {
+//   if (!userId) {
+//     throw new Error("useIdが偽です");
+//   }
+//   const response = await fetch(`api/user/${userId}`);
+//   console.log(response);
+//   //   404エラーのときはPromiseチケット自体はfulfilledになってしまう。
+//   // その時にエラーにするためのエラー処理のコード
+//   if (!response.ok) {
+//     throw new Error(`サーバーエラーです！ コード: ${response.status}`);
+//   }
+//   const date = await response.json();
+//   return date;
+//   //   return response;
+// }
+
+// // エラーがキャッチされたらPromiseStateはrejectになる
+// try {
+//   console.log(getUserId("ichika"));
+// } catch (error) {
+//   console.error(error.message);
+// }
+
+// コントローラーを作成
+// https://httpbin.org/delay/3にアクセスしてコントローラーとペアリングする
+//　JSONのデータを取ってきたときと同じ処理をする
+// 普通のエラーとabortErrorのときのエラー処理を書く
+// --- 3秒後に「やっぱりやめた！」とする ---
+
+// ステータスコードも考慮する？
+// デバッカーを使ったらわかりやすいかも？
+const controller = new AbortController();
+console.log(controller);
+
+async function searchData() {
+  try {
+    console.log("実行します");
+    const response = await fetch("https://httpbin.org/delay/3", {
+      signal: controller.signal,
+    });
+    console.log("response:", response);
+    const data = await response.json();
+    console.log("date:", data);
+  } catch (error) {
+    if (error.name === "AbortError") {
+      console.log("ユーザーによってキャンセルされました");
+    } else console.log("普通にエラーです");
   }
-  const response = await fetch(`api/user/${userId}`);
-  console.log(response);
-  //   404エラーのときはPromiseチケット自体はfulfilledになってしまう。
-  // その時にエラーにするためのエラー処理のコード
-  if (!response.ok) {
-    throw new Error(`サーバーエラーです！ コード: ${response.status}`);
-  }
-  const date = await response.json();
-  return date;
-  //   return response;
 }
 
-// エラーがキャッチされたらPromiseStateはrejectになる
-try {
-  console.log(getUserId("ichika"));
-} catch (error) {
-  console.error(error.message);
-}
+setTimeout(() => {
+  controller.abort("testing");
+  console.log("キャンセルします！");
+}, 3000);
+
+searchData();
