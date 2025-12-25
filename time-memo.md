@@ -296,3 +296,45 @@ async function postData() {
   console.log("✅ 注文完了！ ID:", result.id);
 }
 ```
+
+- 使い分けの指針
+  - 「文字列を持っているなら JSON.parse」
+  - 「fetch のレスポンスなら response.json()」
+    - response.json() は JSON.parse を自動でやってくれるショートカット
+    - fetch 専用の便利メソッド
+
+```js
+// 🔧 もし response.json() がなかったら、こう書く必要があった
+const text = await response.text(); // まずテキストで受け取る
+const data = JSON.parse(text); // 手動で変換
+
+// ✨ でも response.json() があるから、これ1行でOK！
+const data = await response.json(); // テキスト受け取り + 変換を自動でやる
+```
+
+- 変数名を複数形にしたら、文字列の配列にしたほうがいい
+
+# 2025-12-25
+
+## 想定外の対処法を学ぶ
+
+- 堅牢なアプリになる
+- ステータスコードの確認方法は？
+
+  - 201 Created はどこにあるの？
+
+- async と await は一緒に使う
+- 非同期処理と同期処理の違い
+
+  - 同期処理
+    - 前の処理が終わるまで次に進まない
+  - 非同期処理
+    - 待っている間に他の処理を進められる
+
+- 非同期処理で`throw new Error()`をしたらエラーがキャッチされたら Promise チケットは`reject`になる
+
+- 成功（try）: サーバーから返事があった
+  - （200 OK も、404 Not Found も、500 Error も含む）。
+  - 404 でも成功にあるから、ここは自分の目で確かめる
+- 失敗（catch）
+  - サーバーに繋がらない（Wi-Fi 切れ、URL のドメイン間違いなど）。
